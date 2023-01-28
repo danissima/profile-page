@@ -57,6 +57,7 @@ export default {
         padding: 12px 16px
         font-family: $font-primary
         font-size: 16px
+        line-height: 16px
 
         &:focus
             box-shadow: 0px 0px 0px 2px lightgreen;

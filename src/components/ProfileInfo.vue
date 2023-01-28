@@ -1,0 +1,69 @@
+<template>
+    <section class="profile-info">
+        <h2>Персональная информация</h2>
+        <hr>
+        <div class="profile-info__content">
+            <div class="profile-info__column">
+                <ProfileInfoItem title="ФИО" :content="info.fullName" />
+                <ProfileInfoItem title="E-mail" :content="info.email" />
+                <ProfileInfoItem title="Телефон" :content="info.phone" />
+            </div>
+            <div class="profile-info__column">
+                <ProfileInfoItem title="Дата рождения" :content="info.birthday" />
+                <ProfileInfoItem title="Город" :content="info.city" />
+                <ProfileInfoItem title="Владение языками" :content="languagesString" />
+            </div>
+        </div>
+        <AppButton>Изменить</AppButton>
+        <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.0487 3.35143H5.04873C3.06051 3.35143 1.44873 4.96321 1.44873 6.95143V18.9515C1.44873 20.9398 3.06051 22.5515 5.04873 22.5515H17.0487C19.037 22.5515 20.6487 20.9398 20.6487 18.9515L20.6487 12.9515M7.44873 16.5514L11.8147 15.6717C12.0465 15.625 12.2593 15.5109 12.4264 15.3437L22.2001 5.56461C22.6687 5.09576 22.6684 4.33577 22.1994 3.86731L20.129 1.79923C19.6602 1.33097 18.9006 1.33129 18.4322 1.79995L8.65749 11.58C8.49068 11.7469 8.37678 11.9593 8.33003 12.1906L7.44873 16.5514Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg> -->
+
+    </section> 
+</template>
+
+<script>
+import ProfileInfoItem from '@/components/ProfileInfoItem.vue'
+import AppButton from '@/components/AppButton.vue'
+
+export default {
+    name: 'ProfileInfo',
+    components: {
+        ProfileInfoItem,
+        AppButton,
+    },
+
+    data() {
+        return {
+            info: {
+                fullName: 'Уширомия Баттлер Хихихии',
+                email: 'goldsmith-jr@zzz.com',
+                phone: '257-89-17',
+                birthday: '01.04.1972',
+                city: 'Роккенджима',
+                languages: ['японский', 'английский'],
+            },
+        }
+    },
+
+    computed: {
+        languagesString() {
+            return this.info.languages.join(', ')
+        },
+    }
+}
+</script>
+
+<style lang="sass">
+.profile-info
+    &__content
+        gap: 20px
+        display: flex
+        margin: 32px 0
+    
+    &__column
+        flex-direction: column
+        gap: 20px
+        display: flex
+        width: 100%
+</style>
