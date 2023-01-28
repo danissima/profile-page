@@ -54,6 +54,7 @@ export default {
         transition: box-shadow $transition-default
         border: none
         border-radius: 4px
+        width: 100%
         padding: 12px 16px
         font-family: $font-primary
         font-size: 16px
