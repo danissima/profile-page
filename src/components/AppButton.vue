@@ -39,8 +39,6 @@ export default {
     border: none
     padding: 14px 42px
     background-color: #fff
-    cursor: pointer
-    font-family: $font-primary
     font-size: 20px
 
     &_icon

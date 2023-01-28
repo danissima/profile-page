@@ -29,6 +29,12 @@
                     v-model="formData.city"
                     placeholder="Город"
                 />
+                <AppSelect
+                    v-model="formData.languages"
+                    :items="availableLanguages"
+                    placeholder="Владение языками"
+                    is-multiple
+                />
             </div>
         </div>
         <div class="profile-info-form__controls">
@@ -40,12 +46,14 @@
 <script>
 import AppInput from '@/components/AppInput.vue'
 import AppButton from '@/components/AppButton.vue'
+import AppSelect from '@/components/AppSelect.vue'
 
 export default {
     name: 'ProfileInfoForm',
     components: {
         AppInput,
         AppButton,
+        AppSelect,
     },
 
     props: {
@@ -58,6 +66,7 @@ export default {
     data() {
         return {
             formData: null,
+            availableLanguages: ['русский', 'английский', 'жесты', 'JavaScript'],
         }
     },
 

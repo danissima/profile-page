@@ -61,11 +61,11 @@ export default {
         line-height: 16px
 
         &:focus
-            box-shadow: 0px 0px 0px 2px lightgreen;
+            box-shadow: 0px 0px 0px 2px $primary;
         
     // when input has a value
     &__input:not(:placeholder-shown) ~ &__placeholder
-        top: -18px
+        top: -20px
         transform: scale(.8) 
         color: white
 
