@@ -1,34 +1,23 @@
 <template>
-    <div class="app">
-        <AppInput
-            v-model="inputValue"
-            placeholder="Инпут"
-        />
-    </div>
+    <Container>
+    </Container>
 </template>
 
 <script>
-import AppInput from "@/components/AppInput.vue";
+import Container from '@/components/Container.vue';
 
 export default {
     name: "App",
     components: {
-        AppInput,
-    },
-
-    data() {
-        return {
-            inputValue: '',
-        }
+        Container
     },
 };
 </script>
 
 <style lang="sass">
-.app
-    justify-content: center
-    align-items: center
-    display: flex
-    height: 100vh
-    background-color: #272727
+html, body, #app
+    height: 100%
+
+#app
+    background-color: #121217
 </style>
