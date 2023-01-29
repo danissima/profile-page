@@ -1,21 +1,36 @@
 <template>
     <div class="app-input">
-        <input
-            class="app-input__input"
-            :type="type"
-            :value="modelValue"
-            placeholder=" "
-            @input="updateValue($event.target.value)"
-        >
-        <span class="app-input__placeholder">{{ placeholder }}</span>
-        <span v-if="errorText" class="app-input__error">{{ errorText }}</span>
+        <div class="app-input__container">
+            <Field
+                class="app-input__input"
+                :value="modelValue"
+                :type="type"
+                :name="name"
+                :rules="validationRules"
+                placeholder=" "
+                @input="updateValue($event.target.value)"
+            />
+            <span class="app-input__placeholder">{{ placeholder }}</span>
+        </div>
+        <ErrorMessage class="app-input__error" :name="name" />
     </div>
 </template>
 
 <script>
+import { Field, ErrorMessage } from 'vee-validate'
+
 export default {
     name: "AppInput",
     emits: ['update:modelValue'],
+    configure: {
+        validateOnBlur: false,
+    },
+
+    components: {
+        Field,
+        ErrorMessage,
+    },
+
     props: {
         modelValue: {
             default: '',
@@ -27,15 +42,20 @@ export default {
             type: String,
         },
 
+        name: {
+            required: true,
+            type: String,
+        },
+
         placeholder: {
             default: '',
             type: String,
         },
 
-        errorText: {
-            default: '',
-            type: String,
-        }
+        validationRules: {
+            default: [],
+            type: [Array, Function],
+        },
     },
 
     methods: {
@@ -48,10 +68,11 @@ export default {
 
 <style lang="sass">
 .app-input
-    position: relative
+    &__container
+        position: relative
 
     &__input
-        transition: box-shadow $transition-default
+        transition: box-shadow $transition-default, background-color $transition-default
         border: none
         border-radius: 4px
         width: 100%
@@ -60,8 +81,11 @@ export default {
         font-size: 16px
         line-height: 16px
 
+        &:hover
+            background-color: $primary-hover
+
         &:focus
-            box-shadow: 0px 0px 0px 2px $primary;
+            box-shadow: $form-field-shadow;
         
     // when input has a value
     &__input:not(:placeholder-shown) ~ &__placeholder
@@ -75,7 +99,14 @@ export default {
         left: 16px
         transform: translateY(-50%)
         transform-origin: 0 0
+        pointer-events: none
         transition: transform $transition-default, top $transition-default, color $transition-default
         color: grey
+
+    &__error
+        color: $error
+        font-size: 14px
+        line-height: 20px
+        margin-left: 4px
 
 </style>

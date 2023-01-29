@@ -1,7 +1,7 @@
 <template>
     <div
         v-click-outside="() => setIsDropdownOpened(false)"
-        class="app-select"
+        :class="classes"
     >
         <button
             class="app-select__title"
@@ -57,6 +57,13 @@ export default {
         selectedItems() {
             return this.formattedItems.filter((item) => item.selected).map((item) => item.title)
         },
+
+        classes() {
+            return {
+                'app-select': true,
+                'app-select_active': this.isDropdownOpened,
+            }
+        },
     },
 
     methods: {
@@ -81,7 +88,6 @@ export default {
         },
 
         setIsDropdownOpened(isOpened) {
-            console.log('set')
             this.isDropdownOpened = isOpened
         }
     },
@@ -102,6 +108,9 @@ export default {
     position: relative
 
     &__title
+        position: relative
+        z-index: 1
+        transition: box-shadow $transition-default, background-color $transition-default
         border: 1px solid $secondary
         border-radius: 4px
         width: 100%
@@ -109,6 +118,12 @@ export default {
         background-color: #fff
         font-size: 16px
         text-align: left
+
+        &:hover
+            background-color: $primary-hover
+    
+    &_active &__title
+        box-shadow: $form-field-shadow
 
     &__dropdown
         position: absolute
