@@ -23,6 +23,7 @@
                     type="tel"
                     name="phone"
                     placeholder="Телефон"
+                    mask="(999) 999 99-99"
                 />
             </div>
             <div class="profile-info-form__column">
@@ -30,6 +31,8 @@
                     v-model="formData.birthday"
                     name="birthday"
                     placeholder="Дата рождения"
+                    mask="99.99.9999"
+                    :validationRules="validateDate"
                 />
                 <AppInput
                     v-model="formData.city"

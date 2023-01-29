@@ -50,7 +50,7 @@ export default {
                 fullName: 'Уширомия Баттлер Хихихии',
                 email: 'goldsmith-jr@zzz.com',
                 phone: '257-89-17',
-                birthday: '01.04.1972',
+                birthday: '',
                 city: 'Роккенджима',
                 languages: ['японский', 'английский'],
             },

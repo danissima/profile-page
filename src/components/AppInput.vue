@@ -2,6 +2,7 @@
     <div class="app-input">
         <div class="app-input__container">
             <Field
+                v-mask="mask"
                 class="app-input__input"
                 :value="modelValue"
                 :type="type"
@@ -56,6 +57,11 @@ export default {
             default: [],
             type: [Array, Function],
         },
+        
+        mask: {
+            default: '',
+            type: String,
+        }
     },
 
     methods: {

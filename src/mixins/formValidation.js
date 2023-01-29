@@ -14,7 +14,17 @@ export default {
                 return 'Некорректный e-mail'
             }
 
-            return true;
+            return true
+        },
+
+        validateDate(value) {
+            if (!value) return true
+            const regex = /^\d{2}\.\d{2}\.\d{4}$/
+            if (!regex.test(value)) {
+                return 'Некорректная дата'
+            }
+
+            return true
         },
 
         validateLength(value) {
