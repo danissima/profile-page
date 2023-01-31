@@ -4,22 +4,22 @@
         :class="classes"
     >
         <button
-            class="app-select__title"
+            class="app-input-phone-select__title"
             type="button"
             @click="toggleDropdown"
         >
-            {{ placeholder }}
-            <span class="app-select__count">{{ selectedItems.length }}</span>
+            {{ modelValue.code }}
         </button>
-        <div v-if="isDropdownOpened" class="app-select__dropdown">
+        <span class="app-input-phone-select__placeholder">Код</span>
+        <div v-if="isDropdownOpened" class="app-input-phone-select__dropdown">
             <button
-                v-for="(item, index) in formattedItems"
-                :class="getItemClasses(item)"
+                v-for="(item, index) in items"
+                class="app-input-phone-select__item"
                 type="button"
-                :key="item + index"
+                :key="item.label + index"
                 @click="setItemSelected(index)"
             >
-                {{ item.title }}
+                {{ item.label }}
             </button>
         </div>
     </div>
@@ -27,7 +27,7 @@
 
 <script>
 export default {
-    name: 'AppSelect',
+    name: 'AppInputPhoneSelect',
     emits: ['update:modelValue'],
     props: {
         placeholder: {
@@ -41,27 +41,22 @@ export default {
         },
 
         modelValue: {
-            type: Array,
-            default: () => [],
+            type: Object,
+            default: () => {},
         },
     },
 
     data() {
         return {
             isDropdownOpened: false,
-            formattedItems: [],
         }
     },
 
     computed: {
-        selectedItems() {
-            return this.formattedItems.filter((item) => item.selected).map((item) => item.title)
-        },
-
         classes() {
             return {
-                'app-select': true,
-                'app-select_active': this.isDropdownOpened,
+                'app-input-phone-select': true,
+                'app-input-phone-select_active': this.isDropdownOpened,
             }
         },
     },
@@ -75,36 +70,20 @@ export default {
             this.isDropdownOpened = !this.isDropdownOpened
         },
 
-        getItemClasses(item) {
-            return {
-                'app-select__item': true,
-                'app-select__item_selected': item.selected,
-            }
+        setIsDropdownOpened(isOpened) {
+            this.isDropdownOpened = isOpened
         },
 
         setItemSelected(index) {
-            this.formattedItems[index].selected = true
-            this.updateValue(this.selectedItems)
-        },
-
-        setIsDropdownOpened(isOpened) {
-            this.isDropdownOpened = isOpened
+            this.updateValue(this.items[index])
+            this.setIsDropdownOpened(false)
         }
-    },
-
-    created() {
-        this.items.forEach((item) => {
-            this.formattedItems.push({
-               title: item,
-               selected: this.modelValue.includes(item)
-            })
-        })
     },
 }
 </script>
 
 <style lang="sass">
-.app-select
+.app-input-phone-select
     position: relative
 
     &__title
@@ -124,6 +103,14 @@ export default {
     
     &_active &__title
         box-shadow: $form-field-shadow
+    
+    &__placeholder
+        position: absolute
+        top: -20px
+        left: 16px
+        transform: scale(.8)
+        transform-origin: 0 0
+        pointer-events: none
 
     &__dropdown
         position: absolute
@@ -133,9 +120,9 @@ export default {
         display: flex
         overflow: hidden
         border-radius: 4px
-        width: 100%
     
     &__item
-        text-align: left
         padding: 12px 16px
+        text-align: left
+        white-space: nowrap
 </style>

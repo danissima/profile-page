@@ -74,6 +74,8 @@ export default {
 
 <style lang="sass">
 .app-input
+    width: 100%
+
     &__container
         position: relative
 

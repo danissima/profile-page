@@ -18,12 +18,9 @@
                     placeholder="E-mail"
                     :validationRules="[validateRequired, validateEmail, validateLength]"
                 />
-                <AppInput
+                <AppInputPhone
                     v-model="formData.phone"
-                    type="tel"
-                    name="phone"
-                    placeholder="Телефон"
-                    mask="(999) 999 99-99"
+                    :validationRules="validatePhone"
                 />
             </div>
             <div class="profile-info-form__column">
@@ -32,7 +29,7 @@
                     name="birthday"
                     placeholder="Дата рождения"
                     mask="99.99.9999"
-                    :validationRules="validateDate"
+                    :validationRules="validateBirthday"
                 />
                 <AppInput
                     v-model="formData.city"
@@ -58,6 +55,7 @@
 import AppInput from '@/components/AppInput.vue'
 import AppButton from '@/components/AppButton.vue'
 import AppSelect from '@/components/AppSelect.vue'
+import AppInputPhone from '@/components/AppInputPhone.vue';
 import { Form, configure } from 'vee-validate';
 import formValidation from '@/mixins/formValidation.js'
 
@@ -75,6 +73,7 @@ export default {
         AppButton,
         AppSelect,
         Form,
+        AppInputPhone,
     },
 
     props: {

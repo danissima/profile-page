@@ -49,7 +49,7 @@ export default {
             info: {
                 fullName: 'Уширомия Баттлер Хихихии',
                 email: 'goldsmith-jr@zzz.com',
-                phone: '257-89-17',
+                phone: '+7 (111) 111 11-11',
                 birthday: '',
                 city: 'Роккенджима',
                 languages: ['японский', 'английский'],

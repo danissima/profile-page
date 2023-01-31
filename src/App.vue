@@ -4,7 +4,7 @@
             <div class="app__content">
                 <ProfilePicture class="app__block" />
                 <ProfileInfo class="app__block_primary" />
-                <ProfilePassword class="app__block" />
+                <!-- <ProfilePassword class="app__block" /> -->
             </div>
         </Container>
     </div>
@@ -14,7 +14,7 @@
 import Container from '@/components/Container.vue';
 import ProfilePicture from '@/components/ProfilePicture.vue';
 import ProfileInfo from '@/components/ProfileInfo.vue';
-import ProfilePassword from '@/components/ProfilePassword.vue';
+// import ProfilePassword from '@/components/ProfilePassword.vue';
 
 export default {
     name: "App",
@@ -22,7 +22,7 @@ export default {
         Container,
         ProfilePicture,
         ProfileInfo,
-        ProfilePassword,
+        // ProfilePassword,
     },
 };
 </script>
