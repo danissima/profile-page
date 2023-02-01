@@ -3,13 +3,12 @@
         <div class="app-input__container">
             <Field
                 v-mask="mask"
+                v-model="localValue"
                 class="app-input__input"
-                :value="modelValue"
                 :type="type"
                 :name="name"
                 :rules="validationRules"
                 placeholder=" "
-                @input="updateValue($event.target.value)"
             />
             <span class="app-input__placeholder">{{ placeholder }}</span>
         </div>
@@ -64,11 +63,21 @@ export default {
         }
     },
 
-    methods: {
-        updateValue(newValue) {
+    data() {
+        return {
+            localValue: this.modelValue,
+        }
+    },
+
+    watch: {
+        localValue(newValue) {
             this.$emit('update:modelValue', newValue)
         },
-    }
+
+        modelValue(newValue) {
+            this.localValue = newValue
+        }
+    },
 };
 </script>
 

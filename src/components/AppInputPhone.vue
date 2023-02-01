@@ -2,7 +2,7 @@
     <div
         v-if="selectedPhoneCode"
         class="app-input-phone">
-        <AppInputPhoneSelect
+        <PhoneCodeSelect
             v-model="selectedPhoneCode"
             :items="phoneCodes"
         />
@@ -19,7 +19,7 @@
 
 <script>
 import AppInput from '@/components/AppInput.vue'
-import AppInputPhoneSelect from '@/components/AppInputPhoneSelect.vue'
+import PhoneCodeSelect from '@/components/PhoneCodeSelect.vue'
 
 export default {
     name: 'AppInputPhone',
@@ -27,7 +27,7 @@ export default {
 
     components: {
         AppInput,
-        AppInputPhoneSelect,
+        PhoneCodeSelect,
     },
 
     props: {

@@ -24,11 +24,10 @@
                 />
             </div>
             <div class="profile-info-form__column">
-                <AppInput
+                <AppDatepicker
                     v-model="formData.birthday"
                     name="birthday"
                     placeholder="Дата рождения"
-                    mask="99.99.9999"
                     :validationRules="validateBirthday"
                 />
                 <AppInput
@@ -56,6 +55,7 @@ import AppInput from '@/components/AppInput.vue'
 import AppButton from '@/components/AppButton.vue'
 import AppSelect from '@/components/AppSelect.vue'
 import AppInputPhone from '@/components/AppInputPhone.vue';
+import AppDatepicker from '@/components/AppDatepicker.vue';
 import { Form, configure } from 'vee-validate';
 import formValidation from '@/mixins/formValidation.js'
 
@@ -74,6 +74,7 @@ export default {
         AppSelect,
         Form,
         AppInputPhone,
+        AppDatepicker,
     },
 
     props: {

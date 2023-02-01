@@ -4,17 +4,17 @@
         :class="classes"
     >
         <button
-            class="app-input-phone-select__title"
+            class="phone-code-select__title"
             type="button"
             @click="toggleDropdown"
         >
             {{ modelValue.code }}
         </button>
-        <span class="app-input-phone-select__placeholder">Код</span>
-        <div v-if="isDropdownOpened" class="app-input-phone-select__dropdown">
+        <span class="phone-code-select__placeholder">Код</span>
+        <div v-if="isDropdownOpened" class="phone-code-select__dropdown">
             <button
                 v-for="(item, index) in items"
-                class="app-input-phone-select__item"
+                class="phone-code-select__item"
                 type="button"
                 :key="item.label + index"
                 @click="setItemSelected(index)"
@@ -27,7 +27,7 @@
 
 <script>
 export default {
-    name: 'AppInputPhoneSelect',
+    name: 'PhoneCodeSelect',
     emits: ['update:modelValue'],
     props: {
         placeholder: {
@@ -55,8 +55,8 @@ export default {
     computed: {
         classes() {
             return {
-                'app-input-phone-select': true,
-                'app-input-phone-select_active': this.isDropdownOpened,
+                'phone-code-select': true,
+                'phone-code-select_active': this.isDropdownOpened,
             }
         },
     },
@@ -83,7 +83,7 @@ export default {
 </script>
 
 <style lang="sass">
-.app-input-phone-select
+.phone-code-select
     position: relative
 
     &__title
