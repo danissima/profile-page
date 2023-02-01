@@ -11,35 +11,27 @@
             <button class="calendar__button" type="button" @click="setCurrentMonth(currentMonth + 1)">&#62;</button>
         </header>
         <div class="calendar__container">
-            <div class="calendar__week">
-                <span
-                    v-for="day in daysOfWeekNames"
-                    :key="day"
-                    class="calendar__day"
+            <span
+                v-for="day in daysOfWeekNames"
+                :key="day"
+                class="calendar__day"
+            >
+                {{ day }}
+            </span>
+            <template
+                v-for="day in currentCalendar"
+                :key="day"
+            >
+                <button
+                    v-if="day"
+                    :class="getDayClasses(day)"
+                    type="button"
+                    @click="setCurrentDate(currentYear, currentMonth, day)"
                 >
                     {{ day }}
-                </span>
-            </div>
-            <div
-                v-for="(week, i) in currentCalendar"
-                class="calendar__week"
-                :key="week + i"
-            >
-                <template
-                    v-for="day in week"
-                    :key="day"
-                >
-                    <button
-                        v-if="day"
-                        :class="getDayClasses(day)"
-                        type="button"
-                        @click="setCurrentDate(currentYear, currentMonth, day)"
-                    >
-                        {{ day }}
-                    </button> 
-                    <span v-else class="calendar__day"></span>
-                </template>
-            </div>
+                </button> 
+                <span v-else class="calendar__day"></span>
+            </template>
         </div>
     </div>
 </template>
@@ -83,28 +75,14 @@ export default {
             ).getDate()
 
             let week = 0
-            let weekArray = []
 
             while (week < weekDay) {
-                weekArray.push(null)
+                this.currentCalendar.push(null)
                 week++
             }
 
-            for (let i = 1; i <= lastDay;) {
-                while (week < 7) {
-                    week++
-
-                    if (i <= lastDay) {
-                        weekArray.push(i)
-                        i++
-                    } else {
-                        weekArray.push(null)
-                    }
-                }
-
-                this.currentCalendar.push(weekArray)
-                weekArray = []
-                week = 0
+            for (let i = 1; i <= lastDay; i++) {
+                this.currentCalendar.push(i)
             }
         },
 
@@ -183,13 +161,18 @@ export default {
         justify-content: space-between
         display: flex
 
-    &__week
-        display: flex
+    &__container
+        display: grid
+        grid-template-columns: repeat(7, auto)
 
     &__day
         width: 40px
         height: 40px
         text-align: center
+
+        &:nth-child(7n - 1),
+        &:nth-child(7n),
+            color: orange
 
         &_current
             color: red
