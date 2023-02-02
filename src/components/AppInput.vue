@@ -2,15 +2,21 @@
     <div class="app-input">
         <div class="app-input__container">
             <Field
-                v-mask="mask"
-                v-model="localValue"
-                class="app-input__input"
-                :type="type"
+                v-slot="{field, meta}"
                 :name="name"
                 :rules="validationRules"
-                placeholder=" "
-                :autocomplete="autocomplete"
-            />
+            >
+                <input
+                    v-mask="mask"
+                    v-bind="field"
+                    :value="modelValue"
+                    :class="getInputClasses({meta})"
+                    :type="type"
+                    placeholder=" "
+                    :autocomplete="autocomplete"
+                    @input="updateValue($event.target.value)"
+                >
+            </Field>
             <span class="app-input__placeholder">{{ placeholder }}</span>
         </div>
         <ErrorMessage class="app-input__error" :name="name" />
@@ -69,22 +75,20 @@ export default {
         }
     },
 
-    data() {
-        return {
-            localValue: this.modelValue,
-        }
-    },
-
-    watch: {
-        localValue(newValue) {
+    methods: {
+        updateValue(newValue) {
             this.$emit('update:modelValue', newValue)
         },
 
-        modelValue(newValue) {
-            this.localValue = newValue
+        getInputClasses(values) {
+            const { meta } = values
+            return {
+                'app-input__input': true,
+                'app-input__input_error': meta.validated && !meta.valid,
+            }
         }
     },
-};
+}
 </script>
 
 <style lang="sass">
@@ -108,8 +112,14 @@ export default {
             background-color: $primary-hover
 
         &:focus
-            box-shadow: $form-field-shadow;
-        
+            box-shadow: $form-field-shadow
+
+        &_error
+            background-color: lighten($error, 40%)
+
+            &:focus
+                box-shadow: $form-field-shadow-error
+
     // when input has a value
     &__input:not(:placeholder-shown) ~ &__placeholder,
     &__input:focus ~ &__placeholder

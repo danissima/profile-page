@@ -4,7 +4,10 @@
         <hr>
         <Form
             class="profile-password__form"
+            ref="form"
+            :initial-values="formData"
             @submit="handleSubmit"
+            @invalid-submit="handleInvalidSubmit"
         >
             <div class="profile-password__content">
                 <AppInput
@@ -13,7 +16,7 @@
                     type="password"
                     placeholder="Текущий пароль"
                     autocomplete="off"
-                    validation-rules="required"
+                    validation-rules="required|not-same:newPassword"
                 />
                 <AppInput
                     v-model="formData.newPassword"
@@ -21,7 +24,7 @@
                     type="password"
                     placeholder="Новый пароль"
                     autocomplete="off"
-                    validation-rules="required"
+                    validation-rules="required|not-same:currentPassword"
                 />
                 <AppInput
                     v-model="formData.confirmPassword"
@@ -31,8 +34,6 @@
                     autocomplete="off"
                     validation-rules="required|confirm:newPassword"
                 />
-                <!-- <Field name="abc" v-model="formData.currentPassword" type="password" rules="required"/>
-                <ErrorMessage name="abc" /> -->
             </div>
             <span
                 v-if="isSuccessMessageVisible"
@@ -50,27 +51,29 @@
 </template>
 
 <script>
-import { Form, Field, ErrorMessage, setErrors } from 'vee-validate'
+import { Form } from 'vee-validate'
 import AppInput from '@/components/AppInput.vue'
 import AppButton from '@/components/AppButton.vue'
+import form from '@/mixins/form'
+
+const initialValues = {
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+}
 
 export default {
     name: 'ProfilePassword',
+    mixins: [form],
     components: {
         Form,
         AppInput,
         AppButton,
-        Field,
-        ErrorMessage
     },
 
     data() {
         return {
-            formData: {
-                currentPassword: '',
-                newPassword: '',
-                confirmPassword: '',
-            },
+            formData: JSON.parse(JSON.stringify(initialValues)),
             isSuccessMessageVisible: false,
         }
     },
@@ -78,19 +81,19 @@ export default {
     methods: {
         handleSubmit(values, { resetForm }) {
             this.isSuccessMessageVisible = true
-            resetForm({
-                values: {
-                    currentPassword: '',
-                    newPassword: '',
-                    confirmPassword: ''
-                }
-            })
+            this.didFormSubmissionFailed = false
+            resetForm()
+            this.resetFormData()
 
             setTimeout(() => {
                 this.isSuccessMessageVisible = false
             }, 3000)
+        },
+        
+        resetFormData() {
+            this.formData = JSON.parse(JSON.stringify(initialValues))
         }
-    }
+    },
 }
 </script>
 

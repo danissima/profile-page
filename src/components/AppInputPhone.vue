@@ -79,6 +79,15 @@ export default {
             } else {
                 this.$emit('update:modelValue', '')
             }
+        },
+
+        modelValue(newValue) {
+            if (newValue) {
+                const [initialPhoneCode, ...initialPhoneValue] = newValue.split(' ')
+                this.phoneValue = initialPhoneValue.join(' ')
+            } else {
+                this.phoneValue = ''
+            }
         }
     },
 

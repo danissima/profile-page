@@ -2,7 +2,10 @@
     <Form
         v-if="formData"
         class="profile-info-form"
+        ref="form"
+        :initial-values="formData"
         @submit="handleSubmit"
+        @invalid-submit="handleInvalidSubmit"
     >
         <div class="profile-info-form__content">
             <div class="profile-info-form__column">
@@ -57,10 +60,11 @@ import AppSelect from '@/components/AppSelect.vue'
 import AppInputPhone from '@/components/AppInputPhone.vue';
 import AppDatepicker from '@/components/AppDatepicker.vue';
 import { Form } from 'vee-validate';
+import form from '@/mixins/form'
 
 export default {
     name: 'ProfileInfoForm',
-
+    mixins: [form],
     components: {
         AppInput,
         AppButton,
@@ -86,6 +90,7 @@ export default {
 
     methods: {
         handleSubmit() {
+            this.didFormSubmissionFailed = false
             this.$emit('on-submit', this.formData)
         },
     },

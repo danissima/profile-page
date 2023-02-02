@@ -1,17 +1,33 @@
 const SPECIAL_CHARACTER = '9'
+/* for dynamic masks updates */
+const maskedElements = []
 
 export default {
     mounted(element, binding) {
         if (!binding.value) return
-        const maskValue = binding.value
-        let maskPlaceholder = maskValue.replaceAll(SPECIAL_CHARACTER, '_')
 
         element.addEventListener('focus', () => {
-            formatInputValue(element, maskValue, maskPlaceholder)
+            const currentElement = maskedElements.find((elem) => elem.element == element)
+
+            /* if element is in the array, use its mask values in the function */
+            if (currentElement) {
+                formatInputValue(element, currentElement.maskValue, currentElement.maskPlaceholder)
+            } else {
+            /* if element is not in the array, create object and push it to the array */
+                const maskValue = binding.value
+                let maskPlaceholder = maskValue.replaceAll(SPECIAL_CHARACTER, '_')
+                formatInputValue(element, maskValue, maskPlaceholder)
+                maskedElements.push({
+                    element,
+                    maskValue,
+                    maskPlaceholder
+                })
+            }
         })
 
         element.addEventListener('blur', () => {
-            if (element.value === maskPlaceholder) {
+            const currentElement = maskedElements.find((elem) => elem.element == element)
+            if (element.value === currentElement.maskPlaceholder) {
                 element.value = ''
                 element.dispatchEvent(new Event('input'))
             }
@@ -23,6 +39,13 @@ export default {
         const maskValue = binding.value
         let maskPlaceholder = maskValue.replaceAll(SPECIAL_CHARACTER, '_')
         if (!element.value || element.value === maskPlaceholder) return
+
+        /* updating mask in the array */
+        const currentElement = maskedElements.find((elem) => elem.element == element)
+        if (currentElement) {
+            currentElement.maskValue = maskValue
+            currentElement.maskPlaceholder = maskPlaceholder
+        }
 
         formatInputValue(element, maskValue, maskPlaceholder)
     },
@@ -64,7 +87,7 @@ function formatInputValue(element, pattern, mask) {
         range.move('character', newCaretPosition)
         range.select()
     } else if (element.selectionStart) {
-        element.focus()
+        // element.focus()
         element.setSelectionRange(newCaretPosition, newCaretPosition)
     }
 }
