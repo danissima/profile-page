@@ -80,8 +80,6 @@ export default {
         margin-bottom: 24px
         border-radius: 16px
         width: 100%
-        height: 313px
-        max-height: 313px
 
         img
             width: 100%

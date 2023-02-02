@@ -2,9 +2,11 @@
     <div class="app">
         <Container>
             <div class="app__content">
-                <ProfilePicture class="app__block" />
-                <ProfileInfo class="app__block_primary" />
-                <!-- <ProfilePassword class="app__block" /> -->
+                <ProfilePicture class="app__avatar" />
+                <div class="app__info">
+                    <ProfileInfo />
+                    <ProfilePassword />
+                </div>
             </div>
         </Container>
     </div>
@@ -14,7 +16,7 @@
 import Container from '@/components/Container.vue';
 import ProfilePicture from '@/components/ProfilePicture.vue';
 import ProfileInfo from '@/components/ProfileInfo.vue';
-// import ProfilePassword from '@/components/ProfilePassword.vue';
+import ProfilePassword from '@/components/ProfilePassword.vue';
 
 export default {
     name: "App",
@@ -22,29 +24,35 @@ export default {
         Container,
         ProfilePicture,
         ProfileInfo,
-        // ProfilePassword,
+        ProfilePassword,
     },
-};
+}
 </script>
 
 <style lang="sass">
 html, body, #app
     height: 100%
 
-#app
+.app
+    flex-direction: column
+    display: flex
+    min-height: 100%
+    height: auto
+    padding: 120px 0
     background-color: $dark
     color: white
-
-.app
-    padding: 120px 0
 
     &__content
         display: flex
         gap: 20px
 
-    &__block
+    &__avatar
         flex: 1
 
-        &_primary
-            flex: 2
+    &__info
+        flex: 4
+
+        & > section + section
+            margin-top: 60px
+
 </style>

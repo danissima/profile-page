@@ -1,21 +1,105 @@
 <template>
-    <section class="profile-info">
+    <section class="profile-password">
         <h3>Изменить пароль</h3>
         <hr>
-        <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11.0487 3.35143H5.04873C3.06051 3.35143 1.44873 4.96321 1.44873 6.95143V18.9515C1.44873 20.9398 3.06051 22.5515 5.04873 22.5515H17.0487C19.037 22.5515 20.6487 20.9398 20.6487 18.9515L20.6487 12.9515M7.44873 16.5514L11.8147 15.6717C12.0465 15.625 12.2593 15.5109 12.4264 15.3437L22.2001 5.56461C22.6687 5.09576 22.6684 4.33577 22.1994 3.86731L20.129 1.79923C19.6602 1.33097 18.9006 1.33129 18.4322 1.79995L8.65749 11.58C8.49068 11.7469 8.37678 11.9593 8.33003 12.1906L7.44873 16.5514Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg> -->
-
+        <Form
+            class="profile-password__form"
+            @submit="handleSubmit"
+        >
+            <div class="profile-password__content">
+                <AppInput
+                    v-model="formData.currentPassword"
+                    name="currentPassword"            
+                    type="password"
+                    placeholder="Текущий пароль"
+                    autocomplete="off"
+                    validation-rules="required"
+                />
+                <AppInput
+                    v-model="formData.newPassword"
+                    name="newPassword"            
+                    type="password"
+                    placeholder="Новый пароль"
+                    autocomplete="off"
+                    validation-rules="required"
+                />
+                <AppInput
+                    v-model="formData.confirmPassword"
+                    name="confirmPassword"            
+                    type="password"
+                    placeholder="Подтверждение пароля"
+                    autocomplete="off"
+                    validation-rules="required|confirm:newPassword"
+                />
+                <!-- <Field name="abc" v-model="formData.currentPassword" type="password" rules="required"/>
+                <ErrorMessage name="abc" /> -->
+            </div>
+            <span
+                v-if="isSuccessMessageVisible"
+                class="profile-password__success"
+            >
+                Пароль изменен!
+            </span>
+            <AppButton
+                type="submit"
+            >
+                Сохранить
+            </AppButton>
+        </Form>
     </section> 
 </template>
 
 <script>
+import { Form, Field, ErrorMessage, setErrors } from 'vee-validate'
+import AppInput from '@/components/AppInput.vue'
+import AppButton from '@/components/AppButton.vue'
+
 export default {
     name: 'ProfilePassword',
+    components: {
+        Form,
+        AppInput,
+        AppButton,
+        Field,
+        ErrorMessage
+    },
 
+    data() {
+        return {
+            formData: {
+                currentPassword: '',
+                newPassword: '',
+                confirmPassword: '',
+            },
+            isSuccessMessageVisible: false,
+        }
+    },
+
+    methods: {
+        handleSubmit(values, { resetForm }) {
+            this.isSuccessMessageVisible = true
+            resetForm({
+                values: {
+                    currentPassword: '',
+                    newPassword: '',
+                    confirmPassword: ''
+                }
+            })
+
+            setTimeout(() => {
+                this.isSuccessMessageVisible = false
+            }, 3000)
+        }
+    }
 }
 </script>
 
 <style lang="sass">
-
+.profile-password
+    &__content
+        flex-direction: column
+        gap: 32px
+        display: flex
+        margin: 40px 0
+        max-width: 280px
 </style>

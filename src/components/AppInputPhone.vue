@@ -38,7 +38,7 @@ export default {
 
         validationRules: {
             default: [],
-            type: [Function, Array],
+            type: [Function, Array, String],
         }
     },
 

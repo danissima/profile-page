@@ -10,17 +10,17 @@
                     v-model="formData.fullName"
                     name="fullName"
                     placeholder="ФИО"
-                    :validationRules="[validateRequired, validateLength]"
+                    validationRules="required|max-length"
                 />
                 <AppInput
                     v-model="formData.email"
                     name="email"
                     placeholder="E-mail"
-                    :validationRules="[validateRequired, validateEmail, validateLength]"
+                    validationRules="required|max-length|email"
                 />
                 <AppInputPhone
                     v-model="formData.phone"
-                    :validationRules="validatePhone"
+                    validationRules="phone"
                 />
             </div>
             <div class="profile-info-form__column">
@@ -28,13 +28,13 @@
                     v-model="formData.birthday"
                     name="birthday"
                     placeholder="Дата рождения"
-                    :validationRules="validateBirthday"
+                    validationRules="birthday"
                 />
                 <AppInput
                     v-model="formData.city"
                     name="city"
                     placeholder="Город"
-                    :validationRules="validateLength"
+                    validationRules="max-length"
                 />
                 <AppSelect
                     v-model="formData.languages"
@@ -56,17 +56,10 @@ import AppButton from '@/components/AppButton.vue'
 import AppSelect from '@/components/AppSelect.vue'
 import AppInputPhone from '@/components/AppInputPhone.vue';
 import AppDatepicker from '@/components/AppDatepicker.vue';
-import { Form, configure } from 'vee-validate';
-import formValidation from '@/mixins/formValidation.js'
-
-configure({
-    validateOnBlur: false,
-    validateOnChange: false,
-})
+import { Form } from 'vee-validate';
 
 export default {
     name: 'ProfileInfoForm',
-    mixins: [formValidation],
 
     components: {
         AppInput,

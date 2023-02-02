@@ -9,6 +9,7 @@
                 :name="name"
                 :rules="validationRules"
                 placeholder=" "
+                :autocomplete="autocomplete"
             />
             <span class="app-input__placeholder">{{ placeholder }}</span>
         </div>
@@ -54,12 +55,17 @@ export default {
 
         validationRules: {
             default: [],
-            type: [Array, Function],
+            type: [Array, Function, String],
         },
         
         mask: {
             default: '',
             type: String,
+        },
+
+        autocomplete: {
+            type: String,
+            default: 'on',
         }
     },
 
@@ -105,7 +111,8 @@ export default {
             box-shadow: $form-field-shadow;
         
     // when input has a value
-    &__input:not(:placeholder-shown) ~ &__placeholder
+    &__input:not(:placeholder-shown) ~ &__placeholder,
+    &__input:focus ~ &__placeholder
         top: -20px
         transform: scale(.8) 
         color: white
