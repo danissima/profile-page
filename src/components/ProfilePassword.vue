@@ -23,7 +23,7 @@
                     type="password"
                     placeholder="Новый пароль"
                     autocomplete="off"
-                    validation-rules="required|not-same:currentPassword"
+                    validation-rules="required|not-same:currentPassword|min-length"
                 />
                 <AppInput
                     v-model="formData.confirmPassword"
@@ -34,18 +34,20 @@
                     validation-rules="required|confirm:newPassword"
                 />
             </div>
-            <span
-                v-if="isSuccessMessageVisible"
-                class="profile-password__success"
-            >
-                Пароль изменен!
-            </span>
             <AppButton
                 class="profile-password__submit"
                 type="submit"
             >
                 Сохранить
             </AppButton>
+            <Transition name="fade">
+                <span
+                    v-if="isSuccessMessageVisible"
+                    class="profile-password__success"
+                >
+                    Пароль изменен!
+                </span>
+            </Transition>
         </Form>
     </section> 
 </template>
@@ -112,5 +114,10 @@ export default {
     &__submit
         @include break($md)
             width: 100%
+    
+    &__success
+        display: block
+        margin-top: 8px
+        color: $success
 
 </style>
