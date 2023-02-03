@@ -121,7 +121,7 @@ export default {
             width: 100%
     
     &__controls
-        margin-top: 32px
+        margin-top: 48px
 
     &__submit
         @include break($md)

@@ -61,6 +61,7 @@ html, body, #app
 
     &__info
         flex: 3
+        width: 100%
 
     &__section
         border-radius: 16px

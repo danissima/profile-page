@@ -18,20 +18,22 @@
             >
                 {{ day }}
             </span>
-            <template
-                v-for="day in currentCalendar"
-                :key="day"
-            >
-                <button
-                    v-if="day"
-                    :class="getDayClasses(day)"
-                    type="button"
-                    @click="setCurrentDate(currentYear, currentMonth, day)"
+            <TransitionGroup name="list">
+                <template
+                    v-for="(day, index) in currentCalendar"
+                    :key="`${day || index}${currentMonth}${currentYear}`"
                 >
-                    {{ day }}
-                </button> 
-                <span v-else class="calendar__day"></span>
-            </template>
+                    <button
+                        v-if="day"
+                        :class="getDayClasses(day)"
+                        type="button"
+                        @click="setCurrentDate(currentYear, currentMonth, day)"
+                    >
+                        {{ day }}
+                    </button> 
+                    <span v-else class="calendar__day"></span>
+                </template>
+            </TransitionGroup>
         </div>
     </div>
 </template>
@@ -123,7 +125,7 @@ export default {
         },
         
         areDatesValid() {
-            return this.currentMonth < 12
+            return this.currentMonth < 12 && this.currentDay > 0
         }
     },
 

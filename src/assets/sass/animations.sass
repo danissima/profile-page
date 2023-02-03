@@ -19,3 +19,20 @@
 .slide-down-leave-to
     opacity: 0
     transform: translateY(-6px)
+
+/* list */
+.list-move, 
+.list-enter-active,
+.list-leave-active
+    transition: transform .5s ease, opacity .2s ease
+
+.list-move
+    opacity: 0
+
+.list-enter-from,
+.list-leave-to
+    opacity: 0
+    transform: translateY(-10px)
+
+.list-leave-active
+    position: absolute
