@@ -1,4 +1,12 @@
 @mixin break($breakpoint)
     @media screen and (max-width: $breakpoint - 1px)
         @content
+
+@mixin break-min($breakpoint)
+    @media screen and (min-width: $breakpoint)
+        @content
     
+@mixin hover
+    @include break-min($lg)
+        &:hover
+            @content

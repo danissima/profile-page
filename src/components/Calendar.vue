@@ -178,7 +178,7 @@ export default {
         height: 32px
         background-color: darken($primary-hover, 10%)
 
-        &:hover
+        @include hover
             background-color: $primary
             color: #fff
 
@@ -203,8 +203,9 @@ export default {
         background-color: #fff
         text-align: center
 
-        &:not(span):hover
-            background-color: $primary-hover
+        &:not(span)
+            @include hover
+                background-color: $primary-hover
 
         &:not(span):active
             background-color: darken($primary-hover, 10%)
@@ -222,5 +223,9 @@ export default {
 
         &_name
             line-height: 36px
+        
+        @include break($md)
+            width: 34px
+            height: 34px
 
 </style>

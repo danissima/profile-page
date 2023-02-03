@@ -42,7 +42,7 @@ export default {
     background-color: #fff
     font-size: 20px
 
-    &:hover
+    @include hover
         background-color: $primary
         color: #fff
     

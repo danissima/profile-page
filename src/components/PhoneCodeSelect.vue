@@ -165,7 +165,7 @@ export default {
         text-align: left
         white-space: nowrap
 
-        &:hover
+        @include hover
             background-color: $primary-hover
 
         &:active

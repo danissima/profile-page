@@ -210,7 +210,7 @@ export default {
         text-align: left
         line-height: 24px
 
-        &:hover
+        @include hover
             background-color: $primary-hover
 
         &:active

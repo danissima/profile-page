@@ -17,6 +17,9 @@ export default {
     margin: 0 auto
     padding: 0 64px
 
+    @include break($lg)
+        padding: 0 32px
+
     @include break($md)
         padding: 0 20px
 

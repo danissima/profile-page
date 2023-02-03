@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="profile-info-form__controls">
-            <AppButton type="submit">Сохранить</AppButton>
+            <AppButton class="profile-info-form__submit" type="submit">Сохранить</AppButton>
         </div>
     </Form>
 </template>
@@ -116,11 +116,14 @@ export default {
         gap: 32px
         display: flex
         width: calc(50% - 16px)
+
+        @include break($lg)
+            width: 100%
     
     &__controls
         margin-top: 32px
 
+    &__submit
         @include break($md)
-            button
-                width: 100%
+            width: 100%
 </style>
