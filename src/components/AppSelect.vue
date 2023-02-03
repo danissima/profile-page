@@ -9,7 +9,7 @@
                 type="button"
                 @click="toggleDropdown"
             >
-                {{ selectedItemsString }}
+                <span>{{ selectedItemsString }}</span>
             </button>
             <span class="app-select__placeholder">{{ placeholder }}</span>
             <div class="app-select__icon">
@@ -143,11 +143,15 @@ export default {
         background-color: #fff
         font-size: 16px
         text-align: left
-        white-space: nowrap
-        text-overflow: ellipsis
 
         &:hover
             background-color: $primary-hover
+
+        span
+            display: -webkit-box
+            -webkit-line-clamp: 1
+            -webkit-box-orient: vertical
+            overflow: hidden
     
     &_active &__title
         box-shadow: $form-field-shadow

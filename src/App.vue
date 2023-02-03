@@ -1,4 +1,7 @@
 <template>
+    <header class="header">
+        <h1>Привет!</h1>
+    </header>
     <main class="main">
         <Container>
             <div class="main__content">
@@ -10,6 +13,7 @@
             </div>
         </Container>
     </main>
+    <footer class="footer">Сделано с любовью</footer>
 </template>
 
 <script>
@@ -33,20 +37,34 @@ export default {
 html, body, #app
     height: 100%
 
-.main
+#app
     flex-direction: column
     display: flex
     min-height: 100%
     height: auto
-    padding: 120px 0
     background-color: $dark
     color: white
 
+.header
+    padding: 40px 0
+    background-image: linear-gradient(180deg, $blue-gradient)
+
+.footer
+    padding: 28px 0
+    background-image: linear-gradient(0deg, $blue-gradient)
+
+.header,
+.footer
+    text-align: center
+
+.main
+    padding: 40px 0
+
     @include break($lg)
-        padding: 64px 0
+        padding: 32px 0
 
     @include break($md)
-        padding: 32px 0
+        padding: 24px 0
 
     &__content
         gap: 40px
