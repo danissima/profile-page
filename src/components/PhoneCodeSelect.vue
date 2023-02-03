@@ -8,14 +8,19 @@
             type="button"
             @click="toggleDropdown"
         >
-            {{ modelValue.code }}
+            <span>{{ modelValue.code }}</span>
+            <div class="phone-code-select__icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.8 9.5999L12 14.3999L7.19999 9.5999" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
         </button>
         <span class="phone-code-select__placeholder">Код</span>
         <Transition name="slide-down">
             <div v-if="isDropdownOpened" class="phone-code-select__dropdown">
                 <button
                     v-for="(item, index) in items"
-                    class="phone-code-select__item"
+                    :class="getItemClasses(item)"
                     type="button"
                     :key="item.label + index"
                     @click="setItemSelected(index)"
@@ -79,6 +84,13 @@ export default {
         setItemSelected(index) {
             this.updateValue(this.items[index])
             this.setIsDropdownOpened(false)
+        },
+
+        getItemClasses(item) {
+            return {
+                'phone-code-select__item': true,
+                'phone-code-select__item_selected': item.code === this.modelValue.code
+            }
         }
     },
 }
@@ -91,11 +103,12 @@ export default {
     &__title
         position: relative
         z-index: 1
+        display: flex
         transition: box-shadow $transition-default, background-color $transition-default
         border: 1px solid $secondary
         border-radius: 4px
         width: 100%
-        padding: 11px 15px
+        padding: 11px 38px 11px 15px
         background-color: #fff
         font-size: 16px
         text-align: left
@@ -106,6 +119,21 @@ export default {
     &_active &__title
         box-shadow: $form-field-shadow
     
+    &__icon
+        position: absolute
+        right: 10px
+        top: 50%
+        z-index: 1
+        transform: translateY(-50%)
+        pointer-events: none
+        transition: transform $transition-default
+        width: 24px
+        height: 24px
+        color: $secondary
+    
+    &_active &__icon
+        transform: translateY(-50%) rotate(180deg)
+
     &__placeholder
         position: absolute
         top: -20px
@@ -120,13 +148,32 @@ export default {
         left: 0
         z-index: 1
         flex-direction: column
+        gap: 2px
         display: flex
-        overflow: hidden
+        overflow: auto
         border-radius: 4px
         box-shadow: $dropdown-shadow
+        max-height: 240px
+        padding: 2px
+        background-color: #fff
     
     &__item
+        transition: background-color $transition-default, color $transition-default
+        border-radius: 4px
         padding: 12px 16px
+        background-color: #fff
         text-align: left
         white-space: nowrap
+
+        &:hover
+            background-color: $primary-hover
+
+        &:active
+            background-color: darken($primary-hover, 10%)
+
+        &_selected,
+        &_selected:hover,
+        &_selected:active
+            background-color: $primary
+            color: #fff
 </style>

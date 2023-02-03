@@ -80,6 +80,11 @@ export default {
 
     watch: {
         localValue(newValue) {
+            if (newValue) {
+                this.setCalendarOpened(false)
+            } else {
+                this.setCalendarOpened(true)
+            }
             this.$emit('update:modelValue', newValue)
         },
 

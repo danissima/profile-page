@@ -1,5 +1,5 @@
 <template>
-    <div class="calendar">
+    <div v-if="areDatesValid" class="calendar">
         <header class="calendar__header">
             <button class="calendar__button" type="button" @click="setCurrentYear(currentYear - 1)">&#60;</button>
             <h4 class="calendar__title">{{ currentYear }}</h4>
@@ -121,6 +121,10 @@ export default {
         currentMonthName() {
             return this.monthsNames[this.currentMonth]
         },
+        
+        areDatesValid() {
+            return this.currentMonth < 12
+        }
     },
 
     watch: {

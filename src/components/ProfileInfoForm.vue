@@ -83,7 +83,7 @@ export default {
     data() {
         return {
             formData: null,
-            availableLanguages: ['русский', 'английский', 'японский', 'жесты', 'JavaScript'],
+            availableLanguages: ['русский', 'английский', 'японский', 'китайский', 'немецкий', 'французский', 'жесты', 'JavaScript', 'Python', 'TypeScript'],
         }
     },
 
@@ -115,7 +115,7 @@ export default {
         flex-direction: column
         gap: 32px
         display: flex
-        width: 100%
+        width: calc(50% - 16px)
     
     &__controls
         margin-top: 32px

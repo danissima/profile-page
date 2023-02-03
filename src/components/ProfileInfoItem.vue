@@ -1,7 +1,7 @@
 <template>
     <div class="profile-info-item">
         <span class="profile-info-item__title">{{ title }}</span>
-        <span class="profile-info-item__content">{{ content }}</span>
+        <span class="profile-info-item__content">{{ content || '—' }}</span>
     </div> 
 </template>
 
