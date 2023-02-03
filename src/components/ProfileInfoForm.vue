@@ -43,7 +43,6 @@
                     v-model="formData.languages"
                     :items="availableLanguages"
                     placeholder="Владение языками"
-                    is-multiple
                 />
             </div>
         </div>
@@ -109,6 +108,9 @@ export default {
         gap: 32px
         display: flex
 
+        @include break($lg)
+            flex-direction: column
+
     &__column
         flex-direction: column
         gap: 32px
@@ -116,7 +118,9 @@ export default {
         width: 100%
     
     &__controls
-        justify-content: flex-end
-        display: flex
         margin-top: 32px
+
+        @include break($md)
+            button
+                width: 100%
 </style>

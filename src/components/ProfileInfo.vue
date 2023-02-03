@@ -1,7 +1,6 @@
 <template>
     <section class="profile-info">
         <h2>Персональная информация</h2>
-        <hr class="profile-info__separator">
         <div class="profile-info__content">
             <template v-if="!isChangingMode">
                 <div class="profile-info__column">
@@ -47,12 +46,12 @@ export default {
     data() {
         return {
             info: {
-                fullName: 'Уширомия Баттлер Хихихии',
-                email: 'goldsmith-jr@zzz.com',
+                fullName: 'Николас Кейдж',
+                email: 'nicolas-cage@mail.ru',
                 phone: '+7 (111) 111 11-11',
-                birthday: '',
-                city: 'Роккенджима',
-                languages: ['японский', 'английский'],
+                birthday: '12.12.2012',
+                city: 'Калифорния',
+                languages: ['русский', 'английский'],
             },
             isChangingMode: false,
         }
@@ -86,6 +85,9 @@ export default {
         gap: 20px
         display: flex
         margin: 48px 0
+
+        @include break($lg)
+            flex-direction: column
     
     &__column
         flex-direction: column
@@ -94,6 +96,7 @@ export default {
         width: 100%
     
     &__controls
-        display: flex
-        justify-content: flex-end
+        @include break($md)
+            button
+                width: 100%
 </style>

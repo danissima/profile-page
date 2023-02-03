@@ -1,7 +1,6 @@
 <template>
     <section class="profile-password">
         <h3>Изменить пароль</h3>
-        <hr>
         <Form
             class="profile-password__form"
             ref="form"
@@ -42,6 +41,7 @@
                 Пароль изменен!
             </span>
             <AppButton
+                class="profile-password__submit"
                 type="submit"
             >
                 Сохранить
@@ -105,4 +105,12 @@ export default {
         display: flex
         margin: 40px 0
         max-width: 280px
+
+        @include break($md)
+            max-width: none
+    
+    &__submit
+        @include break($md)
+            width: 100%
+
 </style>

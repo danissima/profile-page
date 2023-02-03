@@ -11,17 +11,19 @@
             {{ placeholder }}
             <span class="app-select__count">{{ selectedItems.length }}</span>
         </button>
-        <div v-if="isDropdownOpened" class="app-select__dropdown">
-            <button
-                v-for="(item, index) in formattedItems"
-                :class="getItemClasses(item)"
-                type="button"
-                :key="item + index"
-                @click="setItemSelected(index)"
-            >
-                {{ item.title }}
-            </button>
-        </div>
+        <Transition name="slide-down">
+            <div v-if="isDropdownOpened" class="app-select__dropdown">
+                <button
+                    v-for="(item, index) in formattedItems"
+                    :class="getItemClasses(item)"
+                    type="button"
+                    :key="item + index"
+                    @click="setItemSelected(index)"
+                >
+                    {{ item.title }}
+                </button>
+            </div>
+        </Transition>
     </div>
 </template>
 
@@ -134,6 +136,7 @@ export default {
         overflow: hidden
         border-radius: 4px
         width: 100%
+        box-shadow: $dropdown-shadow
     
     &__item
         text-align: left

@@ -1,15 +1,15 @@
 <template>
-    <div class="app">
+    <main class="main">
         <Container>
-            <div class="app__content">
-                <ProfilePicture class="app__avatar" />
-                <div class="app__info">
-                    <ProfileInfo />
-                    <ProfilePassword />
+            <div class="main__content">
+                <ProfilePicture class="main__avatar" />
+                <div class="main__info">
+                    <ProfileInfo class="main__section" />
+                    <ProfilePassword class="main__section" />
                 </div>
             </div>
         </Container>
-    </div>
+    </main>
 </template>
 
 <script>
@@ -33,7 +33,7 @@ export default {
 html, body, #app
     height: 100%
 
-.app
+.main
     flex-direction: column
     display: flex
     min-height: 100%
@@ -42,17 +42,33 @@ html, body, #app
     background-color: $dark
     color: white
 
+    @include break($lg)
+        padding: 64px 0
+
+    @include break($md)
+        padding: 32px 0
+
     &__content
+        gap: 40px
         display: flex
-        gap: 20px
+
+        @include break($md)
+            flex-direction: column
+            align-items: center
 
     &__avatar
         flex: 1
 
     &__info
-        flex: 4
+        flex: 3
 
-        & > section + section
-            margin-top: 60px
+    &__section
+        border-radius: 16px
+        padding: 36px
+        background-color: #2b2b3b
+
+
+        & + &
+            margin-top: 40px
 
 </style>

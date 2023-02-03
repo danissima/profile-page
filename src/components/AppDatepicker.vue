@@ -11,12 +11,14 @@
             :validation-rules="validationRules"
             @click="toggleCalendar"
         />
-        <Calendar
-            v-if="isCalendarOpened"
-            class="app-datepicker__calendar"
-            :current-date="localValue"
-            @date-change="localValue = $event"
-        />
+        <Transition name="slide-down">
+            <Calendar
+                v-if="isCalendarOpened"
+                class="app-datepicker__calendar"
+                :current-date="localValue"
+                @date-change="localValue = $event"
+            />
+        </Transition>
     </div>
 </template>
 
@@ -101,4 +103,6 @@ export default {
         top: calc(100% + 4px)
         left: 0
         z-index: 2
+        box-shadow: $dropdown-shadow
+
 </style>

@@ -35,11 +35,20 @@ export default {
 
 <style lang="sass">
 .app-button
+    transition: background-color $transition-default, color $transition-default
     border-radius: 4px
     border: none
     padding: 14px 42px
     background-color: #fff
     font-size: 20px
+
+    &:hover
+        background-color: $primary
+        color: #fff
+    
+    &:active
+        background-color: darken($primary, 20%)
+        color: #fff
 
     &_icon
         justify-content: center

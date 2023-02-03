@@ -11,17 +11,19 @@
             {{ modelValue.code }}
         </button>
         <span class="phone-code-select__placeholder">Код</span>
-        <div v-if="isDropdownOpened" class="phone-code-select__dropdown">
-            <button
-                v-for="(item, index) in items"
-                class="phone-code-select__item"
-                type="button"
-                :key="item.label + index"
-                @click="setItemSelected(index)"
-            >
-                {{ item.label }}
-            </button>
-        </div>
+        <Transition name="slide-down">
+            <div v-if="isDropdownOpened" class="phone-code-select__dropdown">
+                <button
+                    v-for="(item, index) in items"
+                    class="phone-code-select__item"
+                    type="button"
+                    :key="item.label + index"
+                    @click="setItemSelected(index)"
+                >
+                    {{ item.label }}
+                </button>
+            </div>
+        </Transition>
     </div>
 </template>
 
@@ -116,10 +118,12 @@ export default {
         position: absolute
         top: calc(100% + 4px)
         left: 0
+        z-index: 1
         flex-direction: column
         display: flex
         overflow: hidden
         border-radius: 4px
+        box-shadow: $dropdown-shadow
     
     &__item
         padding: 12px 16px
