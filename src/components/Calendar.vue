@@ -2,19 +2,19 @@
     <div class="calendar">
         <header class="calendar__header">
             <button class="calendar__button" type="button" @click="setCurrentYear(currentYear - 1)">&#60;</button>
-            <h4>{{ currentYear }}</h4>
+            <h4 class="calendar__title">{{ currentYear }}</h4>
             <button class="calendar__button" type="button" @click="setCurrentYear(currentYear + 1)">&#62;</button>
         </header>
         <header class="calendar__header">
             <button class="calendar__button" type="button" @click="setCurrentMonth(currentMonth - 1)">&#60;</button>
-            <h4>{{ currentMonthName }}</h4>
+            <h4 class="calendar__title">{{ currentMonthName }}</h4>
             <button class="calendar__button" type="button" @click="setCurrentMonth(currentMonth + 1)">&#62;</button>
         </header>
         <div class="calendar__container">
             <span
                 v-for="day in daysOfWeekNames"
                 :key="day"
-                class="calendar__day"
+                class="calendar__day calendar__day_name"
             >
                 {{ day }}
             </span>
@@ -140,7 +140,7 @@ export default {
             dateArray = this.$helpers.getDayMonthYear(this.$helpers.formatDate(new Date()))
         } else {
             this.localCurrentDate = this.currentDate
-            dateArray = this.$helpers.getDayMonthYear(this.$helpers.formatDate(new Date()))
+            dateArray = this.$helpers.getDayMonthYear(this.currentDate)
         }
 
         this.currentDay = dateArray[0]
@@ -154,6 +154,9 @@ export default {
 
 <style lang="sass">
 .calendar
+    overflow: hidden
+    border-radius: 4px
+    padding: 4px
     background-color: #fff
     color: $dark
 
@@ -161,20 +164,59 @@ export default {
         justify-content: space-between
         display: flex
 
+        & + &
+            margin-top: 4px
+
+    &__button
+        transition: background-color $transition-default, color $transition-default
+        border-radius: 4px
+        width: 32px
+        height: 32px
+        background-color: darken($primary-hover, 10%)
+
+        &:hover
+            background-color: $primary
+            color: #fff
+
+        &:active
+            background-color: darken($primary, 20%)
+            color: #fff
+
+    &__title
+        margin: 4px 0
+
     &__container
-        display: grid
         grid-template-columns: repeat(7, auto)
+        gap: 2px
+        display: grid
+        margin-top: 8px
 
     &__day
+        transition: background-color $transition-default, color $transition-default
+        border-radius: 4px
         width: 40px
         height: 40px
+        background-color: #fff
         text-align: center
+
+        &:not(span):hover
+            background-color: $primary-hover
+
+        &:not(span):active
+            background-color: darken($primary-hover, 10%)
 
         &:nth-child(7n - 1),
         &:nth-child(7n),
-            color: orange
+            color: $error
 
-        &_current
-            color: red
+        &_current,
+        &_current:not(span):hover,
+        &_current:nth-child(7n - 1),
+        &_current:nth-child(7n)
+            color: #fff
+            background-color: $primary
+
+        &_name
+            line-height: 36px
 
 </style>
