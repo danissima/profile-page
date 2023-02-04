@@ -12,11 +12,7 @@
                 <span>{{ selectedItemsString }}</span>
             </button>
             <span class="app-select__placeholder">{{ placeholder }}</span>
-            <div class="app-select__icon">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16.8 9.5999L12 14.3999L7.19999 9.5999" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
+            <AppIcon class="app-select__icon" name="chevron-down" />
         </div>
         <Transition name="slide-down">
             <div v-if="isDropdownOpened" class="app-select__dropdown">
@@ -29,9 +25,7 @@
                 >
                     <span>{{ item.title }}</span>
                     <div v-if="item.selected" class="app-select__remove">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18 6L6 18M18 18L6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
+                        <AppIcon name="cross" />
                     </div>
                 </button>
             </div>
@@ -40,9 +34,14 @@
 </template>
 
 <script>
+import AppIcon from '@/components/AppIcon.vue'
+
 export default {
     name: 'AppSelect',
     emits: ['update:modelValue'],
+    components: {
+        AppIcon,
+    },
     props: {
         placeholder: {
             type: String,

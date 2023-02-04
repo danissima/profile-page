@@ -9,11 +9,7 @@
             @click="toggleDropdown"
         >
             <span>{{ modelValue.code }}</span>
-            <div class="phone-code-select__icon">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16.8 9.5999L12 14.3999L7.19999 9.5999" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
+            <AppIcon class="phone-code-select__icon" name="chevron-down" />
         </button>
         <span class="phone-code-select__placeholder">Код</span>
         <Transition name="slide-down">
@@ -33,9 +29,15 @@
 </template>
 
 <script>
+import AppIcon from '@/components/AppIcon.vue'
+
 export default {
     name: 'PhoneCodeSelect',
     emits: ['update:modelValue'],
+    components: {
+        AppIcon
+    },
+
     props: {
         placeholder: {
             type: String,

@@ -14,6 +14,7 @@
         </Container>
     </main>
     <footer class="footer">Сделано с любовью</footer>
+    <SvgSprite />
 </template>
 
 <script>
@@ -21,6 +22,7 @@ import Container from '@/components/Container.vue';
 import ProfilePicture from '@/components/ProfilePicture.vue';
 import ProfileInfo from '@/components/ProfileInfo.vue';
 import ProfilePassword from '@/components/ProfilePassword.vue';
+import SvgSprite from '@/components/SvgSprite.vue';
 
 export default {
     name: "App",
@@ -29,6 +31,7 @@ export default {
         ProfilePicture,
         ProfileInfo,
         ProfilePassword,
+        SvgSprite,
     },
 }
 </script>
