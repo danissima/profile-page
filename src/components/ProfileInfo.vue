@@ -30,6 +30,7 @@
                     class="profile-info__form"
                     :values="info"
                     @on-submit="updateInfo"
+                    @return="setChangingMode(false)"
                 />
             </Transition>
         </div>
@@ -100,6 +101,7 @@ export default {
         margin-top: 48px
 
         @include break($lg)
+            gap: 20px
             flex-direction: column
     
     &__column

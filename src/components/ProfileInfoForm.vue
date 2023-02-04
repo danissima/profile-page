@@ -48,6 +48,9 @@
         </div>
         <div class="profile-info-form__controls">
             <AppButton class="profile-info-form__submit" type="submit">Сохранить</AppButton>
+            <AppButton has-icon @click="returnToView">
+                <AppIcon name="arrow-flip-left" />
+            </AppButton>
         </div>
     </Form>
 </template>
@@ -58,6 +61,7 @@ import AppButton from '@/components/AppButton.vue'
 import AppSelect from '@/components/AppSelect.vue'
 import AppInputPhone from '@/components/AppInputPhone.vue';
 import AppDatepicker from '@/components/AppDatepicker.vue';
+import AppIcon from '@/components/AppIcon.vue';
 import { Form } from 'vee-validate';
 import form from '@/mixins/form'
 
@@ -71,6 +75,7 @@ export default {
         Form,
         AppInputPhone,
         AppDatepicker,
+        AppIcon,
     },
 
     props: {
@@ -92,6 +97,10 @@ export default {
             this.didFormSubmissionFailed = false
             this.$emit('on-submit', this.formData)
         },
+
+        returnToView() {
+            this.$emit('return')
+        }
     },
 
     created() {
@@ -121,6 +130,8 @@ export default {
             width: 100%
     
     &__controls
+        gap: 8px
+        display: flex
         margin-top: 48px
 
     &__submit

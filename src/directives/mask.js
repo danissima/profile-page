@@ -42,7 +42,7 @@ export default {
 
         /* updating mask in the array */
         const currentElement = maskedElements.find((elem) => elem.element == element)
-        if (currentElement) {
+        if (currentElement && currentElement.maskValue !== maskValue) {
             currentElement.maskValue = maskValue
             currentElement.maskPlaceholder = maskPlaceholder
         }

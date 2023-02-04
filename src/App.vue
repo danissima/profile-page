@@ -13,7 +13,7 @@
             </div>
         </Container>
     </main>
-    <footer class="footer">Сделано с любовью</footer>
+    <footer class="footer"><i>Сделано с любоvue</i></footer>
     <SvgSprite />
 </template>
 
@@ -89,6 +89,8 @@ html, body, #app
         padding: 36px
         background-color: #2b2b3b
 
+        @include break($md)
+            padding: 24px
 
         & + &
             margin-top: 40px

@@ -88,6 +88,12 @@ export default {
             } else {
                 this.phoneValue = ''
             }
+        },
+
+        selectedPhoneCode(newValue, prevValue) {
+            if (prevValue !== null) {
+                this.phoneValue = ''
+            }
         }
     },
 
