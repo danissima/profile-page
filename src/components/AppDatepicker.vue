@@ -22,80 +22,68 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import { ref, watch, onMounted } from 'vue'
+
 import AppInput from '@/components/AppInput.vue'
 import Calendar from '@/components/Calendar.vue'
 
-export default {
-    name: 'AppDatepicker',
-    emits: ['update:modelValue'],
-    components: {
-        AppInput,
-        Calendar,
+const props = defineProps({
+    modelValue: {
+        default: '',
+        type: String,
     },
 
-    props: {
-        modelValue: {
-            default: '',
-            type: String,
-        },
-
-        type: {
-            default: 'text',
-            type: String,
-        },
-
-        name: {
-            required: true,
-            type: String,
-        },
-
-        placeholder: {
-            default: '',
-            type: String,
-        },
-
-        validationRules: {
-            default: [],
-            type: [Array, Function, String],
-        },
+    type: {
+        default: 'text',
+        type: String,
     },
 
-    data() {
-        return {
-            localValue: '',
-            isCalendarOpened: false,
-        }
+    name: {
+        required: true,
+        type: String,
     },
 
-    methods: {
-        setCalendarOpened(isOpened) {
-            this.isCalendarOpened = isOpened
-        },
-
-        toggleCalendar() {
-            this.isCalendarOpened = !this.isCalendarOpened
-        }
+    placeholder: {
+        default: '',
+        type: String,
     },
 
-    watch: {
-        localValue(newValue) {
-            if (newValue) {
-                this.setCalendarOpened(false)
-            } else {
-                this.setCalendarOpened(true)
-            }
-            this.$emit('update:modelValue', newValue)
-        },
-
-        modelValue(newValue) {
-            this.localValue = newValue
-        }
+    validationRules: {
+        default: [],
+        type: [Array, Function, String],
     },
+})
 
-    created() {
-        this.localValue = this.modelValue
-    },
+const emits = defineEmits(['update:modelValue'])
+
+const localValue = ref('')
+const isCalendarOpened = ref(false)
+
+watch(() => props.modelValue, (newModelValue) => {
+    localValue.value = newModelValue
+})
+
+watch(localValue, (newLocalValue) => {
+    if (newLocalValue) {
+        setCalendarOpened(false)
+    } else {
+        setCalendarOpened(true)
+    }
+
+    emits('update:modelValue', newLocalValue)
+})
+
+onMounted(() => {
+    localValue.value = props.modelValue
+})
+
+function setCalendarOpened(isOpened) {
+    isCalendarOpened.value = isOpened
+}
+
+function toggleCalendar() {
+    setCalendarOpened(!isCalendarOpened.value)
 }
 </script>
 

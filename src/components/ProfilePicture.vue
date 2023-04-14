@@ -21,34 +21,24 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+
 import AppButton from '@/components/AppButton.vue'
 import ImageUploader from '@/components/ImageUploader.vue'
 
-export default {
-    name: 'ProfilePicture',
-    components: {
-        AppButton,
-        ImageUploader,
-    },
+const isChangingMode = ref(false)
 
-    data() {
-        return {
-            isChangingMode: false,
-            imageSrc: 'https://m.media-amazon.com/images/M/MV5BMjUxMjE4MTQxMF5BMl5BanBnXkFtZTcwNzc2MDM1NA@@._V1_.jpg',
-        }
-    },
+const DEFAULT_IMAGE_SOURCE = 'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/c91144d3442da3b6b4319748e8bd966b~c5_720x720.jpeg?x-expires=1681516800&x-signature=xmDuFiiCvYpvtyEFupFTx32sHbo%3D'
+const imageSrc = ref(DEFAULT_IMAGE_SOURCE)
 
-    methods: {
-        setChangingMode(isChanging) {
-            this.isChangingMode = isChanging
-        },
+function setChangingMode(isChanging) {
+    isChangingMode.value = isChanging
+}
 
-        updateImage(newSrc) {
-            this.imageSrc = newSrc
-            this.setChangingMode(false)
-        }
-    }
+function updateImage(newSrc) {
+    imageSrc.value = newSrc
+    setChangingMode(false)
 }
 </script>
 

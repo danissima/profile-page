@@ -38,124 +38,118 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'Calendar',
-    props: {
-        currentDate: {
-            type: String,
-            default: '',
-        },
+<script setup>
+import { inject, onMounted, ref, watch, computed } from 'vue'
+
+const helpers = inject('helpers')
+
+const props = defineProps({
+    currentDate: {
+        type: String,
+        default: '',
     },
+})
 
-    data() {
-        return {
-            localCurrentDate: '',
-            currentYear: 2023,
-            currentMonth: 0,
-            currentDay: 1,
-            currentCalendar: [],
-            daysOfWeekNames: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'],
-            monthsNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
-        }
-    },
+const emits = defineEmits(['date-change'])
 
-    methods: {
-        generateCalendar() {
-            this.currentCalendar = []
-            const date = new Date(this.currentYear, this.currentMonth, this.currentDay)
-            const weekDay = (new Date(
-                date.getFullYear(),
-                date.getMonth(),
-                1
-            ).getDay() + 6) % 7 // setting 0 as monday
+const localCurrentDate = ref('')
+const currentYear = ref(2023)
+const currentMonth = ref(0)
+const currentDay = ref(1)
+const currentCalendar = ref([])
+const daysOfWeekNames = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
+const monthsNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
 
-            const lastDay = new Date(
-                date.getFullYear(),
-                date.getMonth() + 1,
-                0
-            ).getDate()
+const currentMonthName = computed(() => {
+    return monthsNames[currentMonth.value]
+})
 
-            let week = 0
+const areDatesValid = computed(() => {
+    return currentMonth.value < 12 && currentDay.value > 0
+})
 
-            while (week < weekDay) {
-                this.currentCalendar.push(null)
-                week++
-            }
+watch(() => props.currentDate, (newCurrentDate) => {
+    localCurrentDate.value = newCurrentDate
+})
 
-            for (let i = 1; i <= lastDay; i++) {
-                this.currentCalendar.push(i)
-            }
-        },
+watch(localCurrentDate, (newLocalCurrentDate) => {
+    emits('date-change', newLocalCurrentDate)
+})
 
-        setCurrentDate(year, month, day) {
-            this.localCurrentDate = this.$helpers.getMaskedDate(day, month + 1, year)
-        },
+onMounted(() => {
+    let dateArray = []
 
-        setCurrentYear(newYear) {
-            this.currentYear = newYear
-            this.generateCalendar()
-        },
+    if (!props.currentDate || props.currentDate.includes('_')) {
+        dateArray = helpers.getDayMonthYear(helpers.formatDate(new Date()))
+    } else {
+        localCurrentDate.value = props.currentDate
+        dateArray = helpers.getDayMonthYear(props.currentDate)
+    }
 
-        setCurrentMonth(newMonth) {
-            if (newMonth > 11) {
-                this.currentYear++
-                this.currentMonth = 0
-            } else if (newMonth < 0) {
-                this.currentYear--
-                this.currentMonth = 11
-            } else {
-                this.currentMonth = newMonth
-            }
-            this.generateCalendar()
-        },
+    currentDay.value = dateArray[0]
+    currentMonth.value = dateArray[1] - 1
+    currentYear.value = dateArray[2]
 
-        getDayClasses(day) {
-            const dateString = this.$helpers.getMaskedDate(day, this.currentMonth + 1, this.currentYear)
-            return {
-                'calendar__day': true,
-                'calendar__day_current': dateString === this.localCurrentDate
-            } 
-        }
-    },
+    generateCalendar()
+})
 
-    computed: {
-        currentMonthName() {
-            return this.monthsNames[this.currentMonth]
-        },
-        
-        areDatesValid() {
-            return this.currentMonth < 12 && this.currentDay > 0
-        }
-    },
+function generateCalendar() {
+    currentCalendar.value = []
+    const date = new Date(currentYear.value, currentMonth.value, currentDay.value)
+    const weekDay = (new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        1
+    ).getDay() + 6) % 7 // setting 0 as monday
 
-    watch: {
-        currentDate(newDate) {
-            this.localCurrentDate = newDate
-        },
+    const lastDay = new Date(
+        date.getFullYear(),
+        date.getMonth() + 1,
+        0
+    ).getDate()
 
-        localCurrentDate(newDate) {
-            this.$emit('date-change', newDate)
-        }
-    },
+    let week = 0
 
-    created() {
-        let dateArray = []
+    while (week < weekDay) {
+        currentCalendar.value.push(null)
+        week++
+    }
 
-        if (!this.currentDate || this.currentDate.includes('_')) {
-            dateArray = this.$helpers.getDayMonthYear(this.$helpers.formatDate(new Date()))
-        } else {
-            this.localCurrentDate = this.currentDate
-            dateArray = this.$helpers.getDayMonthYear(this.currentDate)
-        }
-
-        this.currentDay = dateArray[0]
-        this.currentMonth = dateArray[1] - 1
-        this.currentYear = dateArray[2]
-
-        this.generateCalendar()
+    for (let i = 1; i <= lastDay; i++) {
+        currentCalendar.value.push(i)
     }
 }
+
+function setCurrentDate(year, month, day) {
+    localCurrentDate.value = helpers.getMaskedDate(day, month + 1, year)
+}
+
+function setCurrentYear(newYear) {
+    currentYear.value = newYear
+    generateCalendar()
+}
+
+function setCurrentMonth(newMonth) {
+    if (newMonth > 11) {
+        currentYear.value++
+        currentMonth.value = 0
+    } else if (newMonth < 0) {
+        currentYear.value--
+        currentMonth.value = 11
+    } else {
+        currentMonth.value = newMonth
+    }
+    generateCalendar()
+}
+
+function getDayClasses(day) {
+    const dateString = helpers.getMaskedDate(day, currentMonth.value + 1, currentYear.value)
+    return {
+        'calendar__day': true,
+        'calendar__day_current': dateString === localCurrentDate.value
+    } 
+}
+
 </script>
 
 <style lang="sass">

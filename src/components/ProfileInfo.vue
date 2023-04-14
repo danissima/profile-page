@@ -37,49 +37,35 @@
     </section> 
 </template>
 
-<script>
+<script setup>
+import { ref, computed } from 'vue'
+
 import ProfileInfoItem from '@/components/ProfileInfoItem.vue'
 import AppButton from '@/components/AppButton.vue'
 import ProfileInfoForm from '@/components/ProfileInfoForm.vue'
 
-export default {
-    name: 'ProfileInfo',
-    components: {
-        ProfileInfoItem,
-        AppButton,
-        ProfileInfoForm,
-    },
+const info = ref({
+    fullName: 'Кошка Комару',
+    email: 'komaru@mail.ru',
+    phone: '+7 (111) 111 11-11',
+    birthday: '12.12.2012',
+    city: 'Токио',
+    languages: ['русский', 'японский'],
+})
 
-    data() {
-        return {
-            info: {
-                fullName: 'Николас Кейдж',
-                email: 'nicolas-cage@mail.ru',
-                phone: '+7 (111) 111 11-11',
-                birthday: '12.12.2012',
-                city: 'Калифорния',
-                languages: ['русский', 'английский'],
-            },
-            isChangingMode: false,
-        }
-    },
+const isChangingMode = ref(false)
 
-    methods: {
-        setChangingMode(isChanging) {
-            this.isChangingMode = isChanging
-        },
+const languagesString = computed(() => {
+    return info.value.languages.join(', ')
+})
 
-        updateInfo(newInfo) {
-            this.info = newInfo
-            this.setChangingMode(false)
-        }
-    },
+function setChangingMode(isChanging) {
+    isChangingMode.value = isChanging
+}
 
-    computed: {
-        languagesString() {
-            return this.info.languages.join(', ')
-        },
-    }
+function updateInfo(newInfo) {
+    info.value = newInfo
+    setChangingMode(false)
 }
 </script>
 

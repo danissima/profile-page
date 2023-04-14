@@ -7,30 +7,27 @@
     </button>
 </template>
 
-<script>
-export default {
-    name: 'AppButton',
-    props: {
-        type: {
-            type: String,
-            default: 'button',
-        },
+<script setup>
+import { computed } from 'vue'
 
-        hasIcon: {
-            type: Boolean,
-            default: false,
-        }
+const props = defineProps({
+    type: {
+        type: String,
+        default: 'button',
     },
 
-    computed: {
-        classes() {
-            return {
-                'app-button': true,
-                'app-button_icon': this.hasIcon,
-            }
-        }
+    hasIcon: {
+        type: Boolean,
+        default: false,
+    },
+})
+
+const classes = computed(() => {
+    return {
+        'app-button': true,
+        'app-button_icon': props.hasIcon,
     }
-}
+})
 </script>
 
 <style lang="sass">

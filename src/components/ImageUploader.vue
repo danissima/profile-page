@@ -49,79 +49,67 @@
     </form>
 </template>
 
-<script>
+<script setup>
+import { computed, onMounted, ref } from 'vue'
+
 import AppButton from '@/components/AppButton.vue'
 import AppIcon from '@/components/AppIcon.vue'
+
+const props = defineProps({
+    imageSrc: {
+        type: String,
+        required: true,
+    }
+})
+
+const emits = defineEmits(['image-change', 'return'])
 
 const MAX_FILE_SIZE = 2000000
 const IMAGE_PLACEHOLDER_SRC = require( '@/assets/images/placeholder.jpg')
 
-export default {
-    name: 'ImageUploader',
-    components: {
-        AppButton,
-        AppIcon,
-    },
+const imagePreviewSrc = ref('')
+const isError = ref(false)
 
-    props: {
-        imageSrc: {
-            type: String,
-            required: true,
-        }
-    },
-
-    data() {
-        return {
-            imagePreviewSrc: '',
-            imagePlaceholderSrc: IMAGE_PLACEHOLDER_SRC,
-            isError: false,
-        }
-    },
-
-    methods: {
-        triggerInputFile() {
-            this.$refs.input.click()
-        },
-
-        handleFileUpload(event) {
-            this.isError = false
-            const file = event.target.files[0]
-
-            if (file.size > MAX_FILE_SIZE) {
-                this.isError = true
-                return
-            }
-
-            const newSrc= URL.createObjectURL(file)
-            this.imagePreviewSrc = newSrc
-        },
-
-        handleSubmit() {
-            this.$emit('image-change', this.imagePreviewSrc)
-        },
-
-        deleteImage() {
-            this.isError = false
-            this.imagePreviewSrc = this.imagePlaceholderSrc
-        },
-
-        returnToView() {
-            this.$emit('return')
-        },
-    },
-
-    computed: {
-        hintClasses() {
-            return {
-                'image-uploader__hint': true,
-                'image-uploader__hint_error': this.isError,
-            }
-        },
-    },
-
-    created() {
-        this.imagePreviewSrc = this.imageSrc
+const input = ref(null)
+const hintClasses = computed(() => {
+    return {
+        'image-uploader__hint': true,
+        'image-uploader__hint_error': isError.value,
     }
+})
+
+onMounted(() => {
+    imagePreviewSrc.value = props.imageSrc
+})
+
+function triggerInputFile() {
+   input.value.click() 
+}
+
+function handleFileUpload(event) {
+    isError.value = false
+    const file = event.target.files[0]
+
+    if (file.size > MAX_FILE_SIZE) {
+        isError.value = true
+        return
+    }
+
+    const newSrc = URL.createObjectURL(file)
+    imagePreviewSrc.value = newSrc
+}
+
+function handleSubmit() {
+    emits('image-change', imagePreviewSrc.value)
+}
+
+function deleteImage() {
+    isError.value = false
+    imagePreviewSrc.value = IMAGE_PLACEHOLDER_SRC
+}
+
+function returnToView() {
+    emits('return')
 }
 </script>
 

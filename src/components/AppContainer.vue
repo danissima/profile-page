@@ -4,12 +4,6 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'Container',
-}
-</script>
-
 <style lang="sass">
 .container
     width: 100%

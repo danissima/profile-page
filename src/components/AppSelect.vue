@@ -33,92 +33,81 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import { computed, onMounted, reactive, ref } from 'vue'
+
 import AppIcon from '@/components/AppIcon.vue'
 
-export default {
-    name: 'AppSelect',
-    emits: ['update:modelValue'],
-    components: {
-        AppIcon,
-    },
-    props: {
-        placeholder: {
-            type: String,
-            default: '',
-        },
-
-        items: {
-            type: Array,
-            default: () => [],
-        },
-
-        modelValue: {
-            type: Array,
-            default: () => [],
-        },
+const props = defineProps({
+    placeholder: {
+        type: String,
+        default: '',
     },
 
-    data() {
-        return {
-            isDropdownOpened: false,
-            formattedItems: [],
-        }
+    items: {
+        type: Array,
+        default: () => [],
     },
 
-    computed: {
-        selectedItems() {
-            return this.formattedItems.filter((item) => item.selected).map((item) => item.title)
-        },
-
-        selectedItemsString() {
-            return this.selectedItems.join(', ')
-        },
-
-        classes() {
-            return {
-                'app-select': true,
-                'app-select_active': this.isDropdownOpened,
-                'app-select_filled': this.selectedItems.length > 0
-            }
-        },
+    modelValue: {
+        type: Array,
+        default: () => [],
     },
+})
 
-    methods: {
-        updateValue(newValue) {
-            this.$emit('update:modelValue', newValue)
-        },
+const emits = defineEmits(['update:modelValue'])
 
-        toggleDropdown() {
-            this.isDropdownOpened = !this.isDropdownOpened
-        },
+const isDropdownOpened = ref(false)
+const formattedItems = reactive([])
 
-        getItemClasses(item) {
-            return {
-                'app-select__item': true,
-                'app-select__item_selected': item.selected,
-            }
-        },
+const classes = computed(() => {
+    return {
+        'app-select': true,
+        'app-select_active': isDropdownOpened.value,
+        'app-select_filled': selectedItems.value.length > 0
+    }
+})
 
-        toggleItemSelected(index) {
-            const clickedItem = this.formattedItems[index]
-            clickedItem.selected = !clickedItem.selected
-            this.updateValue(this.selectedItems)
-        },
+const selectedItems = computed(() => {
+    return formattedItems.filter((item) => item.selected).map((item) => item.title)
+})
 
-        setIsDropdownOpened(isOpened) {
-            this.isDropdownOpened = isOpened
-        }
-    },
+const selectedItemsString = computed(() => {
+    return selectedItems.value.join(', ')
+})
 
-    created() {
-        this.items.forEach((item) => {
-            this.formattedItems.push({
-               title: item,
-               selected: this.modelValue.includes(item)
-            })
+onMounted(() => {
+    props.items.forEach((item) => {
+        formattedItems.push({
+            title: item,
+            selected: props.modelValue.includes(item)
         })
-    },
+    })
+})
+
+function updateValue(newValue) {
+    emits('update:modelValue', newValue)
+}
+
+function setIsDropdownOpened(isOpened) {
+    isDropdownOpened.value = isOpened
+}
+
+function toggleDropdown() {
+    setIsDropdownOpened(!isDropdownOpened.value)
+}
+
+function getItemClasses(item) {
+    return {
+        'app-select__item': true,
+        'app-select__item_selected': item.selected,
+    }
+}
+
+function toggleItemSelected(index) {
+    const clickedItem = formattedItems[index]
+    clickedItem.selected = !clickedItem.selected
+    updateValue(selectedItems.value)
 }
 </script>
 

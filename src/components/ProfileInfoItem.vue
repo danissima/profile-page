@@ -5,21 +5,18 @@
     </div> 
 </template>
 
-<script>
-export default {
-    name: 'ProfileInfoItem',
-    props: {
-        title: {
-            type: String,
-            required: true,
-        },
+<script setup>
+const props = defineProps({
+    title: {
+        type: String,
+        required: true,
+    },
 
-        content: {
-            type: String,
-            required: true,
-        },
-    }
-}
+    content: {
+        type: String,
+        required: true,
+    },
+})
 </script>
 
 <style lang="sass">

@@ -6,26 +6,23 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'AppIcon',
-    props: {
-        name: {
-            type: String,
-            required: true,
-        },
+<script setup>
+const props = defineProps({
+    name: {
+        type: String,
+        required: true,
+    },
 
-        width: {
-            type: Number,
-            default: 24,
-        },
+    width: {
+        type: Number,
+        default: 24,
+    },
 
-        height: {
-            type: Number,
-            default: 24,
-        },
-    }
-}
+    height: {
+        type: Number,
+        default: 24,
+    },
+})
 </script>
 
 <style lang="sass">

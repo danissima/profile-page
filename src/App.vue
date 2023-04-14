@@ -3,7 +3,7 @@
         <h1>Привет!</h1>
     </header>
     <main class="main">
-        <Container>
+        <AppContainer>
             <div class="main__content">
                 <ProfilePicture class="main__avatar" />
                 <div class="main__info">
@@ -11,29 +11,24 @@
                     <ProfilePassword class="main__section" />
                 </div>
             </div>
-        </Container>
+        </AppContainer>
     </main>
     <footer class="footer"><i>Сделано с любоvue</i></footer>
     <SvgSprite />
 </template>
 
-<script>
-import Container from '@/components/Container.vue';
+<script setup>
+import { provide } from 'vue';
+
+import AppContainer from '@/components/AppContainer.vue';
 import ProfilePicture from '@/components/ProfilePicture.vue';
 import ProfileInfo from '@/components/ProfileInfo.vue';
 import ProfilePassword from '@/components/ProfilePassword.vue';
 import SvgSprite from '@/components/SvgSprite.vue';
 
-export default {
-    name: "App",
-    components: {
-        Container,
-        ProfilePicture,
-        ProfileInfo,
-        ProfilePassword,
-        SvgSprite,
-    },
-}
+import helpers from '@/plugins/index.js';
+
+provide('helpers', helpers)
 </script>
 
 <style lang="sass">

@@ -28,73 +28,61 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from 'vue'
+
 import AppIcon from '@/components/AppIcon.vue'
 
-export default {
-    name: 'PhoneCodeSelect',
-    emits: ['update:modelValue'],
-    components: {
-        AppIcon
+const props = defineProps({
+    placeholder: {
+        type: String,
+        default: '',
     },
 
-    props: {
-        placeholder: {
-            type: String,
-            default: '',
-        },
-
-        items: {
-            type: Array,
-            default: () => [],
-        },
-
-        modelValue: {
-            type: Object,
-            default: () => {},
-        },
+    items: {
+        type: Array,
+        default: () => [],
     },
 
-    data() {
-        return {
-            isDropdownOpened: false,
-        }
+    modelValue: {
+        type: Object,
+        default: () => {},
     },
+})
 
-    computed: {
-        classes() {
-            return {
-                'phone-code-select': true,
-                'phone-code-select_active': this.isDropdownOpened,
-            }
-        },
-    },
+const emits = defineEmits(['update:modelValue'])
 
-    methods: {
-        updateValue(newValue) {
-            this.$emit('update:modelValue', newValue)
-        },
+const isDropdownOpened = ref(false)
 
-        toggleDropdown() {
-            this.isDropdownOpened = !this.isDropdownOpened
-        },
+const classes = computed(() => {
+    return {
+        'phone-code-select': true,
+        'phone-code-select_active': isDropdownOpened.value,
+    }
+})
 
-        setIsDropdownOpened(isOpened) {
-            this.isDropdownOpened = isOpened
-        },
+function updateValue(newValue) {
+    emits('update:modelValue', newValue)
+}
 
-        setItemSelected(index) {
-            this.updateValue(this.items[index])
-            this.setIsDropdownOpened(false)
-        },
+function setIsDropdownOpened(isOpened) {
+    isDropdownOpened.value = isOpened
+}
 
-        getItemClasses(item) {
-            return {
-                'phone-code-select__item': true,
-                'phone-code-select__item_selected': item.code === this.modelValue.code
-            }
-        }
-    },
+function toggleDropdown() {
+    setIsDropdownOpened(!isDropdownOpened.value)
+}
+
+function setItemSelected(index) {
+    updateValue(props.items[index])
+    setIsDropdownOpened(false)
+}
+
+function getItemClasses(item) {
+    return {
+        'phone-code-select__item': true,
+        'phone-code-select__item_selected': item.code === props.modelValue.code
+    }
 }
 </script>
 
