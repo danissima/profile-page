@@ -55,57 +55,44 @@
     </Form>
 </template>
 
-<script>
+<script setup>
+import { onMounted, ref } from 'vue'
+import { Form } from 'vee-validate';
+
 import AppInput from '@/components/AppInput.vue'
 import AppButton from '@/components/AppButton.vue'
 import AppSelect from '@/components/AppSelect.vue'
 import AppInputPhone from '@/components/AppInputPhone.vue';
 import AppDatepicker from '@/components/AppDatepicker.vue';
 import AppIcon from '@/components/AppIcon.vue';
-import { Form } from 'vee-validate';
-import form from '@/mixins/form'
 
-export default {
-    name: 'ProfileInfoForm',
-    mixins: [form],
-    components: {
-        AppInput,
-        AppButton,
-        AppSelect,
-        Form,
-        AppInputPhone,
-        AppDatepicker,
-        AppIcon,
+import { useForm } from '@/hooks/form'
+
+const props = defineProps({
+    values: {
+        type: Object,
+        required: true,
     },
+})
 
-    props: {
-        values: {
-            type: Object,
-            required: true,
-        },
-    },
+const emits = defineEmits(['on-submit', 'return'])
 
-    data() {
-        return {
-            formData: null,
-            availableLanguages: ['русский', 'английский', 'японский', 'китайский', 'немецкий', 'французский', 'жесты', 'JavaScript', 'Python', 'TypeScript'],
-        }
-    },
+const formData = ref(null)
+const availableLanguages = ['русский', 'английский', 'японский', 'китайский', 'немецкий', 'французский', 'жесты', 'JavaScript', 'Python', 'TypeScript']
+const form = ref(null)
+const { didFormSubmissionFailed, handleInvalidSubmit } = useForm(form, formData)
 
-    methods: {
-        handleSubmit() {
-            this.didFormSubmissionFailed = false
-            this.$emit('on-submit', this.formData)
-        },
+onMounted(() => {
+    formData.value = JSON.parse(JSON.stringify(props.values))
+})
 
-        returnToView() {
-            this.$emit('return')
-        }
-    },
+function handleSubmit() {
+    didFormSubmissionFailed.value = false
+    emits('on-submit', formData.value)
+}
 
-    created() {
-        this.formData = JSON.parse(JSON.stringify(this.values))
-    },
+function returnToView() {
+    emits('return')
 }
 </script>
 

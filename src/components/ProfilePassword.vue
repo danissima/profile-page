@@ -52,11 +52,14 @@
     </section> 
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
 import { Form } from 'vee-validate'
+
 import AppInput from '@/components/AppInput.vue'
 import AppButton from '@/components/AppButton.vue'
-import form from '@/mixins/form'
+
+import { useForm } from '@/hooks/form'
 
 const initialValues = {
     currentPassword: '',
@@ -64,38 +67,24 @@ const initialValues = {
     confirmPassword: '',
 }
 
-export default {
-    name: 'ProfilePassword',
-    mixins: [form],
-    components: {
-        Form,
-        AppInput,
-        AppButton,
-    },
+const form = ref(null)
+const formData = ref(JSON.parse(JSON.stringify(initialValues)))
+const isSuccessMessageVisible = ref(false)
+const { didFormSubmissionFailed, handleInvalidSubmit } = useForm(form, formData)
 
-    data() {
-        return {
-            formData: JSON.parse(JSON.stringify(initialValues)),
-            isSuccessMessageVisible: false,
-        }
-    },
+function handleSubmit(values, { resetForm }) {
+    isSuccessMessageVisible.value = true
+    didFormSubmissionFailed.value = false
+    resetForm()
+    resetFormData()
 
-    methods: {
-        handleSubmit(values, { resetForm }) {
-            this.isSuccessMessageVisible = true
-            this.didFormSubmissionFailed = false
-            resetForm()
-            this.resetFormData()
+    setTimeout(() => {
+        isSuccessMessageVisible.value = false
+    }, 3000)
+}
 
-            setTimeout(() => {
-                this.isSuccessMessageVisible = false
-            }, 3000)
-        },
-        
-        resetFormData() {
-            this.formData = JSON.parse(JSON.stringify(initialValues))
-        }
-    },
+function resetFormData() {
+    formData.value = JSON.parse(JSON.stringify(initialValues))
 }
 </script>
 

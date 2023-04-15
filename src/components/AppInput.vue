@@ -23,71 +23,58 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import { Field, ErrorMessage } from 'vee-validate'
 
-export default {
-    name: "AppInput",
-    emits: ['update:modelValue'],
-    configure: {
-        validateOnBlur: false,
+const props = defineProps({
+    modelValue: {
+        default: '',
+        type: String,
     },
 
-    components: {
-        Field,
-        ErrorMessage,
+    type: {
+        default: 'text',
+        type: String,
     },
 
-    props: {
-        modelValue: {
-            default: '',
-            type: String,
-        },
-
-        type: {
-            default: 'text',
-            type: String,
-        },
-
-        name: {
-            required: true,
-            type: String,
-        },
-
-        placeholder: {
-            default: '',
-            type: String,
-        },
-
-        validationRules: {
-            default: [],
-            type: [Array, Function, String],
-        },
-        
-        mask: {
-            default: '',
-            type: String,
-        },
-
-        autocomplete: {
-            type: String,
-            default: 'on',
-        }
+    name: {
+        required: true,
+        type: String,
     },
 
-    methods: {
-        updateValue(newValue) {
-            this.$emit('update:modelValue', newValue)
-        },
-
-        getInputClasses(values) {
-            const { meta } = values
-            return {
-                'app-input__input': true,
-                'app-input__input_error': meta.validated && !meta.valid,
-            }
-        }
+    placeholder: {
+        default: '',
+        type: String,
     },
+
+    validationRules: {
+        default: [],
+        type: [Array, Function, String],
+    },
+    
+    mask: {
+        default: '',
+        type: String,
+    },
+
+    autocomplete: {
+        type: String,
+        default: 'on',
+    }
+})
+
+const emits = defineEmits(['update:modelValue'])
+
+function updateValue(newValue) {
+    emits('update:modelValue', newValue)
+}
+
+function getInputClasses(values) {
+    const { meta } = values
+    return {
+        'app-input__input': true,
+        'app-input__input_error': meta.validated && !meta.valid,
+    }
 }
 </script>
 
