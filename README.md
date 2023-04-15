@@ -5,7 +5,7 @@ Simple profile page project built with Vue 3 and Sass
 * /assets - for static files (fonts, images) and sass files
 * /components - for vue components
 * /directives - for custom directives (e.g. v-mask)
-* /mixins - for component mixins
+* /hooks - for custom hooks
 * /plugins - for helper functions
 * /validatiors - for vee-validate validation rules
 
